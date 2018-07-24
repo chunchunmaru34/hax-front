@@ -1,0 +1,8 @@
+.search-bar {
+    margin: 15px auto;
+    width: 75%;
+    height: 30px;
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+}

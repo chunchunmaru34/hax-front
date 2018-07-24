@@ -1,0 +1,5 @@
+.score div {
+    color: green;
+    display: inline-block;
+    transform: rotate(90deg);
+}

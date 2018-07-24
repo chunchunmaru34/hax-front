@@ -1,0 +1,28 @@
+.story-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1;
+    color: rgba(0, 0, 0, 0.85);
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    margin: 15px;
+    width: 50%;
+
+    transition: 0.2s box-shadow ease-in;
+}
+
+.story-link {
+    margin-bottom: 15px;
+}
+.story-link a {
+    color: mediumseagreen;
+}
+
+.story-card:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.story-content {
+    padding: 15px;
+}
