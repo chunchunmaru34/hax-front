@@ -2,7 +2,8 @@
     font-size: 0.8em;
     display: flex;
     justify-content: space-between;
-    color: rgba(0, 0, 0, 0.6)
+    color: rgba(0, 0, 0, 0.6);
+    margin: 10px 15px 10px 15px;
 }
 
 .comments-link a{

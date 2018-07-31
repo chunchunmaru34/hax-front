@@ -2,7 +2,9 @@ import React from 'react';
 
 import StoryHeader from './header/header.component';
 import StoryFooter from './footer/footer.component';
+import StoryPreview from './preview/story-preview.component';
 import { storyType } from '../../constants/prop-types/story';
+import { clipUrl } from '../../utils/clip-url';
 
 import './story.styles.css';
 
@@ -10,17 +12,20 @@ import './story.styles.css';
 const Story = ({ data }) => (
     <div className='story-card'>
         <StoryHeader text={data.title}/>
-        <div className='story-content'>
-            <div className='story-link'>
-                <a href={data.url} target="_blank">{data.url}</a>
-            </div>
-            <StoryFooter
-                id={data.id} 
-                score={data.score} 
-                date={data.time}
-                commentsCount={data.descendants}
-            />
-        </div>
+        {data.preview 
+            ? <StoryPreview preview={data.preview} url={data.url}/>
+            : (
+                <div className='story-link'>
+                    <a href={data.url} target="_blank">{clipUrl(data.url)}</a>
+                </div>
+            )
+        }
+        <StoryFooter
+            id={data._id} 
+            score={data.score} 
+            date={data.time}
+            commentsCount={data.descendants}
+        />
     </div>
 )
 

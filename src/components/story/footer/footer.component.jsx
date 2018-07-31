@@ -25,7 +25,7 @@ StoryFooter.propTypes = {
     score: PropTypes.number,
     date: PropTypes.number,
     commentsCount: PropTypes.number,
-    id: PropTypes.id
+    id: PropTypes.number
 }
 
 export default StoryFooter;

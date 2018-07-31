@@ -1,0 +1,11 @@
+.story-preview-content {
+    font-size: 0.85em;
+}
+
+.story-preview-content div {
+    margin: 5px;
+}
+
+.story-preview-image img {
+    width: 100%
+}

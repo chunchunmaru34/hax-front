@@ -10,11 +10,12 @@ const NewsFeed = ({ stories }) => (
     <div className='feed'>
         <SearchBar/>
         <div className='stories-container'>
-            {stories.map(story => <Story key={story.id} data={story}/>)}
+            {stories.map(story => <Story key={story._id} data={story}/>)}
         </div>
     </div>
     
 )
+
 
 NewsFeed.propTypes = {
     stories: PropTypes.arrayOf(storyType)

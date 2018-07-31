@@ -1,11 +1,11 @@
 import React from 'react';
 
 import NewsFeed from './news-feed.component';
-import { getStories, getTopStoriesIds } from '../../services/api/news.service';
+import { getTopStories } from '../../services/api/news.service';
 import { attachWithThrottle } from '../../utils/percentage-scrolled';
 
-const STORIES_TO_FETCH_NUMBER = 10;
 
+const PAGE_PREVIEWS_SOCKET = 'ws://localhost:5555/pagePreviews';
 
 class NewsFeedContainer extends React.Component {
     constructor() {
@@ -13,38 +13,51 @@ class NewsFeedContainer extends React.Component {
 
         this.state = { 
             stories: [],
-            storyIds: [],
+            page: 0,
+            isStoriesLoading: false,
+            pagePreviewsSocket: null,
         };
     }
 
-    async componentDidMount() {
-        this.pushStory = this.pushStory.bind(this);
+    componentDidMount() {
+        const pagePreviewsSocket = new WebSocket(PAGE_PREVIEWS_SOCKET);
+        pagePreviewsSocket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const stories = [...this.state.stories];
+            const index = stories.findIndex(story => story._id === data._id);
+            stories[index] = { ...stories[index], preview: data.preview };
+            this.setState({ stories });
+        }; 
+        this.setState({ pagePreviewsSocket });
 
         attachWithThrottle(async percentageScrolled  => {
-            if (percentageScrolled >= 75) {
+            if (percentageScrolled >= 75 && !this.state.isStoriesLoading) {
                 this.getNextStories();
             }
         }, 25);
 
-        const storyIds = await getTopStoriesIds();
-        await this.setState({ storyIds });
-        this.getNextStories();
+        this.getNextStories();  
     }
 
     async getNextStories() {
-        const { storyIds } = this.state;
-        const storiesToFetch = storyIds.splice(0, STORIES_TO_FETCH_NUMBER);
-        this.setState({ storyIds });
+        const { page, stories } = this.state;
 
-        const stories = await getStories(storiesToFetch);
-        stories.forEach(story => story.then(this.pushStory));
-    }
+        let fetchedStories;
+        try {
+            this.setState({ isStoriesLoading: true });
 
-    pushStory(story) {
-        const stories  = [...this.state.stories];
-        stories.push(story);
+            fetchedStories = await getTopStories({ page: page + 1, pageSize: 20 });
+            this.setState({ 
+                stories: [...stories, ...fetchedStories],
+                page: page + 1,
+                isStoriesLoading: false
+            });
 
-        this.setState({ stories });
+            const previewInfo = fetchedStories.map(story => ({ url: story.url, _id: story._id }));
+            this.state.pagePreviewsSocket.send(JSON.stringify(previewInfo));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     render() {
