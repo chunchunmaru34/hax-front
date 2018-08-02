@@ -18,9 +18,10 @@ class SearchBar extends React.Component {
         return (
             <div className='search-bar-container'>
                 <input
+                    disabled={true}
                     className='search-bar' 
                     type='text' 
-                    placeholder='Search (not working :))'
+                    placeholder='Search'
                     onChange={this.onChange}
                     value={this.state.searchString}
                 />

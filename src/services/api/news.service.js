@@ -7,7 +7,7 @@ const TOP_STORIES_PATH = `${API}/topstories`;
 //     return fetch(`${ITEM_PATH}/${id}.json`).then(res => res.json());
 // }
 
-export const getTopStories = (params) => {
-    const queryString = stringify(params);
+export const getTopStories = ({ page, pageSize }) => {
+    const queryString = stringify({ page, pageSize });
     return fetch(`${TOP_STORIES_PATH}?${queryString}`).then(res => res.json());
 }

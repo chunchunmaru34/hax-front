@@ -3,6 +3,7 @@ import React from 'react';
 import StoryHeader from './header/header.component';
 import StoryFooter from './footer/footer.component';
 import StoryPreview from './preview/story-preview.component';
+import SummaryButton from './summary/summary-button.component';
 import { storyType } from '../../constants/prop-types/story';
 import { clipUrl } from '../../utils/clip-url';
 
@@ -20,12 +21,15 @@ const Story = ({ data }) => (
                 </div>
             )
         }
-        <StoryFooter
-            id={data._id} 
-            score={data.score} 
-            date={data.time}
-            commentsCount={data.descendants}
-        />
+        <div>
+            <SummaryButton id={data._id}/>
+            <StoryFooter
+                id={data._id} 
+                score={data.score} 
+                date={data.time}
+                commentsCount={data.descendants}
+            />
+        </div>
     </div>
 )
 

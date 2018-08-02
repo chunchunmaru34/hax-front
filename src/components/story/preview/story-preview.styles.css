@@ -1,3 +1,10 @@
+.story-preview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
+
 .story-preview-content {
     font-size: 0.85em;
 }

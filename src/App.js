@@ -1,22 +1,39 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
 
+import rootReducer from './reducers';
+import rootSaga from './sagas';
 import NewsFeedContainer from './components/news-feed/news-feed.container';
 
 import './App.css';
-import './fonts/Roboto-Medium.ttf';
 
+const sagaMiddleware = createSagaMiddleware({});
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)))
+sagaMiddleware.run(rootSaga);
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <Provider store={store}>
+        <Router>
+        <div className="App">
         <header className="App-header">
           <h1 className="App-title">Some react app</h1>
         </header>
         <main>
-          <NewsFeedContainer></NewsFeedContainer>
+          <Switch>
+            <Route path='/stories/:id' component={() => <div>Hello world</div>}/>
+            <Route path='/' component={NewsFeedContainer}/>
+          </Switch>
         </main>
       </div>
+      </Router>
+    </Provider>
     );
   }
 }
