@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas';
 import NewsFeedContainer from './components/news-feed/news-feed.container';
+import PageSummaryContainer from './components/page-summary/page-summary.container';
 
 import './App.css';
 
@@ -27,7 +28,7 @@ class App extends Component {
         </header>
         <main>
           <Switch>
-            <Route path='/stories/:id' component={() => <div>Hello world</div>}/>
+            <Route path='/stories/:id' component={PageSummaryContainer}/>
             <Route path='/' component={NewsFeedContainer}/>
           </Switch>
         </main>

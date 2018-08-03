@@ -1,7 +1,6 @@
 import { stringify } from 'qs';
+import { TOP_STORIES_URL } from './constants';
 
-const API = 'http://localhost:5555';
-const TOP_STORIES_PATH = `${API}/topstories`;
 
 // export const getStory = id => {
 //     return fetch(`${ITEM_PATH}/${id}.json`).then(res => res.json());
@@ -9,5 +8,5 @@ const TOP_STORIES_PATH = `${API}/topstories`;
 
 export const getTopStories = ({ page, pageSize }) => {
     const queryString = stringify({ page, pageSize });
-    return fetch(`${TOP_STORIES_PATH}?${queryString}`).then(res => res.json());
+    return fetch(`${TOP_STORIES_URL}?${queryString}`).then(res => res.json());
 }
