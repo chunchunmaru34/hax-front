@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { storyType } from '../../constants/prop-types/story';
 import { stories, pagePreviews } from './actions';
 import NewsFeed from './news-feed.component';
-import { attachWithThrottle } from '../../utils/percentage-scrolled';
+import { initScrollPercentage } from '../../utils/percentage-scrolled';
 
 
 const PAGE_PREVIEWS_SOCKET = 'ws://localhost:5555/pagePreviews';
@@ -25,6 +25,8 @@ class NewsFeedContainer extends React.Component {
 
         this.state = { 
             page: 0,
+            attachScrollHandler: null,
+            removeScrollHandler: null
         };
     }
 
@@ -34,15 +36,23 @@ class NewsFeedContainer extends React.Component {
         pagePreviewsSocket.onmessage = receivePagePreview;
         initSocket(pagePreviewsSocket);
 
-        attachWithThrottle(async percentageScrolled  => {
+        const { attach, remove } = initScrollPercentage(async percentageScrolled  => {
             if (percentageScrolled >= 75 && !this.props.isStoriesLoading) {
                 this.getNextStories();
             }
-        }, 25);
+        });
+
+        attach();
+
+        this.setState({ attachScrollHandler: attach, removeScrollHandler: remove });
 
         if (!this.props.stories.length) {
             this.getNextStories(); 
         } 
+    }
+
+    componentWillUnmount() {
+        this.state.removeScrollHandler();
     }
 
     async getNextStories() {

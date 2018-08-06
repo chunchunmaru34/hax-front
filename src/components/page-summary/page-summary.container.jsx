@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import PageSummary from './page-summary.component';
 import { getPageSummaryById } from '../../services/api/page-summary.service';
 
 
@@ -20,9 +21,13 @@ class PageSummaryContainer extends React.Component {
     }
 
     render() {
-        return (
-            <div dangerouslySetInnerHTML={{__html: this.state.summary && this.state.summary.html}}></div>
-        )
+        const { summary } = this.state;
+        
+        if (!summary) {
+            return '';
+        }
+        
+        return <PageSummary html={summary.html}/>
     }
 }
 

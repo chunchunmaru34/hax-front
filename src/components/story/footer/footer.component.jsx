@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { convert } from '../../../utils/unix-time-converter'; 
+import { convertFromUnixTime, timeDifference } from '../../../utils/time';
 import Score from '../score/score.component';
 import './footer.styles.css';
 
@@ -16,7 +16,7 @@ const StoryFooter = ({ score, date, commentsCount, id }) => (
         </div>
         <div>
             <span role='img' aria-label='story creation time'>🕒 </span>
-            <span>{convert(date).toDateString()}</span>
+            <span>{timeDifference(convertFromUnixTime(date), new Date())}</span>
         </div>
     </div>
 )

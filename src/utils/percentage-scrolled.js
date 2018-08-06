@@ -18,11 +18,10 @@ export function percentageScrolled(){
 
 
 
-export function attachWithThrottle(callback, throttleMs = 50) {
+export function initScrollPercentage(callback, throttleMs = 50) {
     let timer;
 
-    window.addEventListener('scroll', () => {
-        
+    const handler = () => {
         if (timer) {
             clearTimeout(timer);
             timer = setTimeout(() => timer = clearTimeout(timer), throttleMs);
@@ -32,6 +31,19 @@ export function attachWithThrottle(callback, throttleMs = 50) {
         
         const scrolled = percentageScrolled();
         callback(scrolled);
-    })
+    }
+
+    function attach() {
+        window.addEventListener('scroll', handler);
+        
+    }
     
-} 
+    function remove() {
+        window.removeEventListener('scroll', handler)
+    }
+
+    return {
+        attach,
+        remove
+    }
+}

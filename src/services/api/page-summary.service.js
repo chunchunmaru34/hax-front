@@ -5,5 +5,5 @@ export const getPageSummary = (url) => {
 }
 
 export const getPageSummaryById = (id) => {
-    return fetch(`${PAGE_SUMMARY_URL}?id=${id}`).then(res => res.json());
+    return fetch(`${PAGE_SUMMARY_URL}/${id}`).then(res => res.json());
 }
